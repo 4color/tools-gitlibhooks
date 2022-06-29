@@ -1,10 +1,7 @@
 package main
 
 import (
-	"fmt"
 	"github.com/go-playground/webhooks/v6/gitlab"
-	"os/exec"
-
 	"net/http"
 )
 
@@ -46,16 +43,10 @@ func main() {
 		case gitlab.PushEventPayload:
 			{
 				println("PushEventPayload")
-				//PushPayload := payload.(gitlab.PushEventPayload)
-				//// Do whatever you want from here...
-				//fmt.Printf("%+v", PushPayload)
-				//返回一个 cmd 对象
-				cmd, err := exec.Command("/bin/bash", "./pull.sh").Output()
-				if err != nil {
-					fmt.Printf("error %s", err)
-				}
-				output := string(cmd)
-				fmt.Printf("output: %s", output)
+				PushPayload := payload.(gitlab.PushEventPayload)
+
+				PullEvent(PushPayload)
+
 			}
 			break
 		default:
