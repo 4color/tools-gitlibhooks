@@ -23,7 +23,11 @@ func PullEvent(event gitlab.PushEventPayload) {
 
 	fmt.Println("进入目录,并拉取最新代码")
 
-	gocmd("cd " + event.Project.Name + "&&git pull")
+	fullcmds := "cd " + event.Project.Name + "&&git pull"
+	if event.Project.DefaultBranch != "master" && event.Project.DefaultBranch != "main" {
+		fullcmds += "&&git checkout " + event.Project.DefaultBranch
+	}
+	gocmd(fullcmds)
 	//
 	//fmt.Println("拉取最新代码")
 	//gocmd("git pull")
